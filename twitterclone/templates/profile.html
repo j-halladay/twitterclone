@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if not user.is_anonymous %}
+{% if user.twitteruser in userprofile.followed.all %}
+<a href="/unfollow/{{userprofile.id}}">Unfollow</a>
+{% else %}
+<a href="/follow/{{userprofile.id}}">Follow</a>
+{% endif%}
+{% endif%}
+<p>{{ userprofile.name }}</p>
+<p>{{ userprofile.bio }}</p>
+<p>tweets: {{ tweets.count }}</p>
+<p>followers: {{ userprofile.followed.count }}</p>
+
+
+{% for i in tweets %}
+<p>{{ i.text }}</p>
+{% endfor %}
+
+
+
+
+{% endblock %}

@@ -13,9 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
 from django.contrib import admin
+from django.urls import path
+from twitterclone.authentication.urls import urlpatterns as authpatterns
+from twitterclone.notification.urls import urlpatterns as notifpatterns
+from twitterclone.tweet.urls import urlpatterns as tweetpatterns
+from twitterclone.twitteruser.urls import urlpatterns as tupatterns
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
+    # path('', index, name='index'),
+    # path('recipies/<int:id>', recipie),
+    # path('author/<int:id>', author),
+    # path('addauthor/', addauthor),
+    # path('addrecipie/', addrecipie),
+    # path('login/', loginpage),
+    # path('logout/', logoutpage, name='logout')
 ]
+urlpatterns += authpatterns
+urlpatterns += notifpatterns
+urlpatterns += tweetpatterns
+urlpatterns += tupatterns

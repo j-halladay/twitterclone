@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p> hello {{ user.twitteruser.name}}</p>
+{% for post in notifications %}
+    
+    <p><a href="/viewed/{{post.tweet_id}}">{{post.text}}</a></p>
+{% endfor %}
+
+{% if not user.is_anonymous %}
+    
+    <p><a href="/logout">logout</a></p>
+    <p><a href="/createtweet">Make Tweet</a></p>
+    <ul>
+    {% for i in tweets %}
+
+    <li><p><a href="/profile/{{ i.twitteruser.id }}">{{ i.twitteruser.name }}</a></p></li>
+    <li><p><a href="/tweet/{{ i.id }}">{{ i.text }}</a></p></li>
+    {% endfor %} 
+    </ul>
+{% else %}
+<p><a href="/login">Login</a></p> <p><a href="/signup">Signup</a></p>
+{% endif %}
+
+{% endblock %}

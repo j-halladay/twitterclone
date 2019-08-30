@@ -25,7 +25,7 @@ SECRET_KEY = '*ii&fii8n7-%4axg+s8q#spop_izd=lc6hk8*gio-lnf0))%vh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'twitterclone'
 ]
 
 MIDDLEWARE = [
@@ -51,10 +52,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'twitterclone.urls'
 
+LOGIN_URL = '/login'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'twitterclone', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

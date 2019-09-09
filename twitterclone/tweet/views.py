@@ -48,7 +48,7 @@ def createtweet(request, *args, **kwargs):
     return render(request, html, {'form': form})
 
 
-class CreateTweet(TemplateView):
+class MakeTweet(TemplateView):
     html = 'genericform.html'
     def post(self, request, *args, **kwargs):
 

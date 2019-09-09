@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path
-from twitterclone.twitteruser.views import adduser, profile, follow, unfollow
+from twitterclone.twitteruser.views import MakeUser, profile, follow, unfollow
 urlpatterns = [
-    path('signup/', adduser),
+    path('signup/', MakeUser.as_view()),
     path('profile/<int:id>', profile),
     path('follow/<int:id>', follow),
     path('unfollow/<int:id>', unfollow),

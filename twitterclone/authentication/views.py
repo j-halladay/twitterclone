@@ -8,6 +8,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views.generic import TemplateView
 
 
 def index(request, *args, **kwargs):
@@ -51,7 +52,39 @@ def loginpage(request, *args, **kwargs):
     return render(request, html, {'form': form})
 
 
+class LoginPage(TemplateView):
+    html = 'genericform.html'
+
+    def get(self, request, *args, **kwargs):
+        form = LoginForm()
+
+        return render(request, self.html, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            u = authenticate(
+                username=data['username'], password=data['password'])
+            if u is not None:
+                login(request, u)
+            else:
+                return HttpResponseRedirect(reverse('login'))
+            destination = request.GET.get('next')
+            if destination is not None:
+                return HttpResponseRedirect(destination)
+            else:
+                return HttpResponseRedirect(reverse('index'))
+
+
 def logoutpage(request):
     logout(request)
 
     return HttpResponseRedirect(reverse('index'))
+
+
+class LogoutPage(TemplateView):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+
+        return HttpResponseRedirect(reverse('index'))

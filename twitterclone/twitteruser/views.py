@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.core.exceptions import PermissionDenied
+from django.views.generic import TemplateView
 
 
 def profile(request, id, *args, **kwargs):
@@ -50,3 +51,24 @@ def adduser(request, *args, **kwargs):
     form = AddUser()
 
     return render(request, html, {'form': form})
+
+
+class MakeUser(TemplateView):
+    html = 'genericform.html'
+
+    def get(self, request, *args, **kwargs):
+        form = AddUser()
+
+        return render(request, self.html, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = AddUser(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            u = User.objects.create_user(
+                username=data['username'], password=data['password']
+            )
+            a = TwitterUser.objects.create(
+                user=u, name=data['name'], bio=data['bio'])
+            login(request, u)
+            return HttpResponseRedirect(reverse('index'))
